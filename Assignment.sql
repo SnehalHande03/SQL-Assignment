@@ -167,4 +167,23 @@ FROM HotelBooking
 WHERE MONTH(CreatedDate) = 12
 AND YEAR(CreatedDate) = 2024;
 
-  
+  --27 Guests who stayed more than 20 nights
+  select FirstName, LastName,Gender,TotalNights
+  from HotelGuest
+  where TotalNights >20;
+
+  -- Get guest name with booking details
+  select HG.FirstName,HG.LastName,Hb.BookingID,HB.TotalAmount
+  from HotelGuest as HG
+  join
+  HotelBooking as HB
+  on HG.GuestID= HB.GuestID
+
+  -- Find top spending guest
+  select top 1 G.FirstName,G.LastName,sum(B.TotalAmount) AS TotalSpend
+  from HotelGuest as G
+  join
+  HotelBooking as B
+  on G.GuestID = B.GuestID
+  group by G.FirstName,G.LastName
+  order by sum(B.TotalAmount) desc;
